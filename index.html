@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SMART SIGNAL — Traffic Light State Machine</title>
+  <link rel="stylesheet" href="/src/styles.css" />
+</head>
+<body>
+
+  <!-- Loading Overlay (shown during API initialisation) -->
+  <div id="loading-overlay">
+    <div class="spinner"></div>
+    <p>Connecting to API…</p>
+  </div>
+
+  <!-- API Warning Banner (shown when API is offline / fallback config is used) -->
+  <div id="api-warning" style="display:none;">
+    ⚠ API server offline — using safe defaults. Run: <code>npm run server</code>
+  </div>
+
+  <!-- ═══ Application Header ════════════════════════════════════════════ -->
+  <header class="app-header">
+    <div class="header-inner">
+      <span class="header-icon">🚦</span>
+      <div>
+        <h1>SMART SIGNAL</h1>
+        <p class="tagline">A State-Based Traffic Light Management System</p>
+      </div>
+      <div class="header-badge">State Design Pattern · Async JS</div>
+    </div>
+  </header>
+
+  <!-- ═══ Main Dashboard ════════════════════════════════════════════════ -->
+  <main id="app">
+    <div class="dashboard">
+
+      <!-- ── LEFT COLUMN: Signal + Pedestrian ──────────────────────── -->
+      <div class="left-column">
+
+        <!-- Traffic Signal -->
+        <section class="signal-panel" aria-label="Traffic Signal">
+          <h2 class="panel-title">Traffic Signal</h2>
+          <div class="traffic-light" role="img" aria-label="Traffic light indicator">
+            <div class="light red"    data-state="red"    aria-label="Red light"></div>
+            <div class="light yellow" data-state="yellow" aria-label="Yellow light"></div>
+            <div class="light green"  data-state="green"  aria-label="Green light"></div>
+          </div>
+          <div class="signal-label-wrapper">
+            <span id="signal-label" class="signal-label">---</span>
+          </div>
+        </section>
+
+        <!-- Pedestrian Crossing Panel (Optional Extension) -->
+        <section class="pedestrian-panel" aria-label="Pedestrian Crossing">
+          <h2 class="panel-title">🚶 Pedestrian Crossing</h2>
+          <p class="ped-note">Requests are safely queued and processed at the next RED phase.</p>
+          <button id="pedestrian-btn" class="btn btn-pedestrian">REQUEST CROSSING</button>
+          <div id="pedestrian-status" class="ped-status"></div>
+        </section>
+
+      </div>
+
+      <!-- ── RIGHT COLUMN: Status + Controls + History ─────────────── -->
+      <div class="right-column">
+
+        <!-- Status Panel -->
+        <section class="status-panel" aria-label="Status Information">
+          <h2 class="panel-title">System Status</h2>
+          <div class="status-grid">
+            <div class="status-card">
+              <span class="status-label">Current State</span>
+              <span id="current-state" class="status-value">--</span>
+            </div>
+            <div class="status-card">
+              <span class="status-label">Remaining Time</span>
+              <span id="remaining-time" class="status-value mono">--</span>
+            </div>
+            <div class="status-card">
+              <span class="status-label">Next State</span>
+              <span id="next-state" class="status-value">--</span>
+            </div>
+            <div class="status-card">
+              <span class="status-label">Completed Cycles</span>
+              <span id="cycle-count" class="status-value">0</span>
+            </div>
+            <div class="status-card wide">
+              <span class="status-label">Last Transition</span>
+              <span id="last-transition" class="status-value small">--</span>
+            </div>
+            <div class="status-card wide">
+              <span class="status-label">API Connection</span>
+              <span id="api-status" class="status-value api-offline">🔴 Connecting…</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Control Buttons -->
+        <section class="controls-panel" aria-label="Controls">
+          <h2 class="panel-title">Controls</h2>
+          <div class="controls">
+            <button id="start-btn"   class="btn btn-start">▶ START</button>
+            <button id="stop-btn"    class="btn btn-stop"    disabled>⏹ STOP</button>
+            <button id="reset-btn"   class="btn btn-reset">↺ RESET</button>
+            <button id="advance-btn" class="btn btn-advance">⏭ MANUAL ADVANCE</button>
+          </div>
+          <div id="action-message" class="action-message" style="display:none;"></div>
+        </section>
+
+        <!-- Transition History -->
+        <section class="history-panel" aria-label="Transition History">
+          <h2 class="panel-title">Transition History</h2>
+          <ul id="history-list" class="history-list" aria-live="polite"></ul>
+          <p class="history-empty" id="history-empty">No transitions yet. Press START.</p>
+        </section>
+
+      </div>
+    </div><!-- /.dashboard -->
+  </main>
+
+  <!-- ═══ Footer ════════════════════════════════════════════════════════ -->
+  <footer class="app-footer">
+    <p>SMART SIGNAL · State Design Pattern (GoF) · Async JavaScript with Promises, async/await &amp; Fetch API</p>
+    <p class="footer-note">Academic demonstration — VIT | JavaScript ES Modules + Node.js + Express + Vite</p>
+  </footer>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
+
